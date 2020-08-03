@@ -1,0 +1,65 @@
+{% extends 'blogapp/base.html' %}
+
+{% block title %}
+<title>Registration Page</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+
+	<h2 class="text-center my-4">Registration Form</h2>
+
+	<div class="d-flex justify-content-center">
+		<form action="" method="POST" class="col-md-6"> {% csrf_token %}
+
+			<div class="row">
+				<div class="col">
+					<label for="first_name">First Name</label>
+					{{form.first_name}}
+				</div>
+
+				<div class="col">
+					<label for="last_name">Last Name</label>
+					{{form.last_name}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="username">Username</label>
+				{{form.username}}
+			</div>
+
+			<div class="form-group">
+				<label for="email">Email address</label>
+				{{form.email}}
+			</div>
+
+			<div class="form-group">
+				<label for="password">Password</label>
+				{{form.password1}}
+			</div>
+
+			<div class="form-group">
+				<label for="confrim-password">Confirm Password</label>
+				{{form.password2}}
+			</div>
+
+			<div class="form-group">
+				<small class="text-danger"> {{form.errors}} </small>
+			</div>
+
+			<input type="submit" value="Sign Up" class="btn btn-primary form-control" />
+			<div class="my-2">
+				<div>
+					Already have an account? 
+				</div>
+				<div class="my-2">
+					<a href="{% url 'login' %}" class="btn btn-info btn-block">Login</a>	
+				</div>
+			</div>
+		</form>
+
+
+	</div>
+</div>
+{% endblock %}

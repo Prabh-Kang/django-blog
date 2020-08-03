@@ -1,0 +1,71 @@
+{% extends 'blogapp/base.html' %}
+
+{% block title %}
+<title>Login</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="container col-md-4 my-4">
+	<h2 class="text-center font-weight-bolder">Login</h2>
+	<hr style="width: 60%; margin: auto" >
+
+	<div class="container mt-4">
+		{% for message in messages %}
+		<div class="alert alert-dark alert-dismissible fade show" role="alert">
+			{{message}}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		{% endfor %}
+	</div>
+
+		{% load crispy_forms_tags %}
+		<form action="" method="POST"> {% csrf_token %}
+			{{form|crispy}}
+			<div class="form-group">
+				{% for error in form.errors %}
+				{{error}}
+				{% endfor %}
+			</div>
+
+			<div class="row">
+				<div class="col col-md-4">
+					<button type="submit" class="btn btn-primary btn-block">Login</button>
+				</div>
+
+				<div class="col-md-4">
+					<p class="text-dark font-weight-bolder text-right pt-2"> New User?</p>
+				</div>
+
+				<div class="col-md-4">
+					<a href="{% url 'register' %}" class="btn btn-primary btn-block">Register</a>					
+				</div>
+			</div>
+
+			<div>
+				<a href="{% url 'password_reset' %}" class="text-primary">Forgot password?</a>
+			</div>
+	</form>
+</div>
+
+{% block script %}
+<script>
+	$('.alert').alert();
+	document.getElementsByClassName('nav-form')[0].style.display = 'none';
+</script> 
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

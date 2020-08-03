@@ -1,0 +1,32 @@
+{% extends 'blogapp/base.html' %}
+
+{% block title %}
+
+	{% if request.path_info == "/create/" %}
+<title>Create Blog</title>
+	{% else %}
+<title>Edit Blog</title>
+	{% endif %}
+
+{% endblock %}
+
+
+
+{% block body %}
+
+<div class="container mt-4 mb-2 col-md-4">
+
+	{% load crispy_forms_tags %}
+
+	{% if request.path_info == "/create/" %}
+		<h2 class="text-center">Create Post</h2>
+	{% else %}
+		<h2 class="text-center">Edit Post</h2>
+	{% endif %}
+
+	<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+		{{form|crispy}}
+		<input type="submit" value="Post" class="btn btn-block btn-outline-primary">
+	</form>
+</div>
+{% endblock %}

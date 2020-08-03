@@ -1,0 +1,117 @@
+{% extends 'blogapp/base.html' %}
+
+{% block title %}
+<title>Welcome to MyBlog</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+	<div class="row">
+		<div class="d-flex flex-column col-lg-8">
+			{% if object.blogpost_set.all.count > 0 %}
+
+			{% for object in object.blogpost_set.all|dictsortreversed:"date_posted" %}
+			<div class="card my-2">
+				<div class="card-header">
+					<img src="{{object.author.profile_pic.url}}" alt="" class="img-thumbnail rounded-circle img-fluid" width="60px" height="60px">
+					
+					<a class="text-primary" href="{% url 'user-blog-list' object.author.id%}">{{object.author}}</a>
+				</div>
+
+				<div class="card-body">
+					<h4 class="card-title">
+						<a href="{% url 'detail-view' object.id %}"> <span class="font-weight-bold text-dark font-weight-bold"> {{object.title}} </span></a>
+					</h4>
+					<img src="{{object.image.url}}" class="card-img-top mb-2" alt="...">
+					<p class="card-text">
+						{{object.content|truncatechars:500}} 
+						<a href="{% url 'detail-view' object.id %}">
+							Read more
+						</a>
+					</p>
+				</div>
+
+				<div class="card-footer text-muted text-right bg-light">
+					Posted on {{object.date_posted|date:"d F o"}} @ {{object.date_posted|time:"f A"}}
+				</div>
+
+			</div>
+			{% endfor %}
+
+			{% else %}
+			<h1 class="text-center my-2">No blogs have been posted yet.</h1>
+			{% endif %}
+
+		</div>
+
+		<div class="d-lg-inline d-none flex-column col-lg-4 my-2">
+
+			<div>
+				{% if user.is_authenticated %}
+				
+				<h4 class="text-dark text-center font-weight-bold mt-4 mb-2">
+					{{object.first_name}} {{object.last_name}}
+				</h4>
+				<img src="{{object.profile_pic.url}}" class="img-fluid rounded-circle my-3" alt="">
+				
+				{% endif %}
+				
+			</div>
+
+
+			
+
+		</div>
+	</div>
+
+	<!-- PAGINATION -->
+
+	{% if is_paginated %}
+
+	{% if page_obj.has_previous %}
+	
+	<a href="?page=1" class="btn btn-outline-info mb-4">First</a>
+	<a href="?page={{page_obj.previous_page_number}}" class="btn btn-outline-info mb-4">Previous</a>
+
+	{% endif %}
+
+	{% for num in page_obj.paginator.page_range %}
+
+	{% if page_obj.number == num %}
+
+	<a href="?page={{num}}" class="btn btn-info mb-4">{{num}}</a>
+
+	{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+
+	<a href="?page={{num}}" class="btn btn-outline-info mb-4">{{num}}</a>
+
+
+	{% endif %}
+
+	{% endfor %}
+
+
+	{% if page_obj.has_next %}
+	
+	<a href="?page={{page_obj.next_page_number}}" class="btn btn-outline-info mb-4">Next</a>
+	<a href="?page={{page_obj.paginator.num_pages}}" class="btn btn-outline-info mb-4">Last</a>
+
+	{% endif %}
+
+	{% endif %}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
