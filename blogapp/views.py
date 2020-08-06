@@ -18,6 +18,7 @@ from django.contrib import messages
 from .models import BlogPost, Comment
 from django.http import JsonResponse
 import json
+from datetime import datetime
 
 
 
@@ -210,10 +211,13 @@ def ajaxcomments(request):
 		content = request.POST.get('content')
 		print(request.POST)
 		new_comment = Comment.objects.create(comment=content, author=author, post=post)
+		x = datetime(new_comment.date_posted).strftime("%d %B %Y")
+
+
 		responseObj = {
 		'author': new_comment.author.username,
 		'content':new_comment.comment,
-		'date_posted':str(new_comment.date_posted),
+		'date_posted':str(x),
 		'url':new_comment.author.profile_pic.url,
 		
 		}

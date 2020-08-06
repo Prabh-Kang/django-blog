@@ -28,33 +28,7 @@
 	{% endif %}
 
 
-<!--
-	<form action="" method="POST"> {% csrf_token %}
-		{% load crispy_forms_tags %}
-		{{form|crispy}}
-		<input type="submit" value="Submit">
-	</form>
 
-	<div>
-		{% for comment in comments %}
-		<p>
-			<a href="{% url 'user-blog-list' post.author.id %}">
-			{{comment.author}}
-				
-			</a>
-		</p>
-		<p>{{comment.comment}}</p>
-		<small>{{comment.date_posted}}</small>
-		
-		{% if user == comment.author %}
-		<a href="#" class="btn btn-secondary">Edit Comment</a>
-		<a href="#" class="btn btn-danger">Delete Comment</a>
-		{% endif %}
-	
-
-		{% endfor %}
-	</div>
--->
 
 <!-- AJAX COMMENTS SECTION -->
 
@@ -90,7 +64,7 @@
 				<p>
 					{{comment.comment}}
 					<p>
-						<small class="d-flex justify-content-end">{{comment.date_posted}}
+						<small class="d-flex justify-content-end">{{comment.date_posted|date:"d F Y"}}
 						</small></p>
 					</p>
 				</div>
@@ -130,6 +104,7 @@
 			success: function (data) {
 				let comment = JSON.parse(data);
 				console.log(comment)
+				let d = new Date(comment.date_posted)
 				document.getElementById("newComment").innerHTML += `
 				<div class="row mb-3 p-3 pb-0 shadow-sm bg-light">
 			<div class="col col-md-2">
@@ -146,7 +121,7 @@
 				<p>
 					${comment.content}
 					<p>
-						<small class="d-flex justify-content-end">${comment.date_posted}
+						<small class="d-flex justify-content-end">${d.getDay()}-${d.getMonth()}-${d.getYear()}
 						</small></p>
 					</p>
 				</div>
